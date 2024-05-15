@@ -1,5 +1,15 @@
 package org.example;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@EqualsAndHashCode
+@Getter
+@Setter
+
 public class Address {
     int streetNo;
     String street;
@@ -8,6 +18,34 @@ public class Address {
     String postalCode;
     String country;
 
+    public Address(int streetNo, String street, String city, String province, String postalCode, String country) {
+        if (isPostalCodeValid(postalCode)) {
+            this.streetNo = streetNo;
+            this.street = street;
+            this.city = city;
+            this.province = province;
+            this.postalCode = postalCode;
+            this.country = country;
+        } else {
+            this.streetNo = Integer.parseInt(null);
+            this.street = null;
+            this.city = null;
+            this.province = null;
+            this.postalCode = null;
+            this.country = null;
+        }
+    }
+
+    /**
+     * checks if a postal code is valid or not.
+     * if the length is 6, then it must follow the format: CDCDCD.
+     * ex: A1A1A1
+     * if the length is 7, then it must follow the format: CDC DCD.
+     * ex: A1A 1A1
+     * where C is a character, while D is a digit. Case-insensitive;
+     * @param postalCode the input postal code
+     * @return true if the postal code is valid and false if the postal code is invalid
+     */
     static boolean isPostalCodeValid(String postalCode) {
         if (postalCode.length() == 6) {
             for (int i = 0; i < postalCode.length(); i++) {
