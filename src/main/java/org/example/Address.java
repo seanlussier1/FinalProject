@@ -47,36 +47,42 @@ public class Address {
      * @return true if the postal code is valid and false if the postal code is invalid
      */
     static boolean isPostalCodeValid(String postalCode) {
-        if (postalCode.length() == 6) {
-            for (int i = 0; i < postalCode.length(); i++) {
+        if (postalCode == null || postalCode.isEmpty()) {
+            return false;
+        }
+        String codeLowerCase = postalCode.toLowerCase();
+        if (codeLowerCase.length() == 6) {
+            for (int i = 0; i < codeLowerCase.length(); i++) {
+                char c = codeLowerCase.charAt(i);
                 if (i % 2 == 0) {
-                    if (postalCode.charAt(i) < 'A' || postalCode.charAt(i) > 'z') {
+                    if (c < 'a' || c > 'z') {
                         return false;
                     }
                 }
                 if (i % 2 == 1) {
-                    if (postalCode.charAt(i) < '0' || postalCode.charAt(i) > '9') {
+                    if (c < '0' || c > '9') {
                         return false;
                     }
                 }
             }
             return true;
         }
-        if (postalCode.length() == 7) {
-            for (int i = 0; i < postalCode.length(); i++) {
+        if (codeLowerCase.length() == 7) {
+            for (int i = 0; i < codeLowerCase.length(); i++) {
+                char c = codeLowerCase.charAt(i);
                 switch (i) {
                     case 0, 2, 5 -> {
-                        if (postalCode.charAt(i) < 'A' || postalCode.charAt(i) > 'z') {
+                        if (c < 'a' || c > 'z') {
                             return false;
                         }
                     }
                     case 1, 4, 6 -> {
-                        if (postalCode.charAt(i) < '0' || postalCode.charAt(i) > '9') {
+                        if (c < '0' || c > '9') {
                             return false;
                         }
                     }
                     case 3 -> {
-                        if (postalCode.charAt(i) != ' ') {
+                        if (c != ' ') {
                             return false;
                         }
                     }
