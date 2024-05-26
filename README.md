@@ -1,7 +1,7 @@
 # This is my Final Project
 This Project has 7 classes which are Address, Department, Student, Assignment, Course, enum Gender, Util. Plus there is Unit testing.
 Together what this project is supposed to do is create a student that has an address and can register or drop course. Then we can generate assignments and grades for the student.
-After we diplay those grades along with a final score and the average on each assignment depending on the amount of students their are for that assignment.
+After we diplay those grades along with a final score and the average on each assignment depending on the amount of students there are for that assignment.
 # Address
 This class is an address for a student. The only method used here checks if the postal code is valid or not.
 
