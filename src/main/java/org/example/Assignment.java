@@ -19,10 +19,11 @@ public class Assignment {
         this.maxScore = maxScore;
         this.scores = new ArrayList<>();
     }
+
     /**
      * calculates the average score of one assignment
      */
-    void calcAssignmentAvg() {
+    public void calcAssignmentAvg() {
         double sumOfScores = 0;
         for (int score : scores) {
             sumOfScores += score;
@@ -39,7 +40,7 @@ public class Assignment {
      * if the number is 5, 6, 7, 8, then generate a random score in range [80, 90) for the student
      * if the number is 9, 10, then generate a random score in range [90, 100] for the student
      */
-    void generateRandomScore() {
+    public void generateRandomScore() {
         Random random = new Random();
         int randNum = random.nextInt(0, 11);
         int score;

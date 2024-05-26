@@ -1,7 +1,7 @@
 package org.example;
 
+import Util.Util;
 import java.util.ArrayList;
-
 
 public class Course {
     private String courseId; // C-departmentId-twoDigitCourseId, e.g.: C-D01-01
@@ -13,11 +13,23 @@ public class Course {
     private ArrayList<Double> finalScores;
     private static int nextId = 1; // indicates the next ID that will be used
 
+    public Course(String courseId, String courseName, double credits, Department department,
+                  ArrayList<Assignment> assignments, ArrayList<Student> registeredStudents,
+                  ArrayList<Double> finalScores) { // constructor created for unit testing
+        this.courseId = courseId;
+        this.courseName = Util.toTitleCase(courseName);
+        this.credits = credits;
+        this.department = department;
+        this.assignments = assignments;
+        this.registeredStudents = registeredStudents;
+        this.finalScores = finalScores;
+    }
+
     /**
      * checks if the sum of weights of all assignments of that course equals to 1 (100%)
      * @return true if the weights of all assignments = 1 and false if the weights are anything else
      */
-    boolean isAssignmentWeightValid() {
+    public boolean isAssignmentWeightValid() {
         double totalWeight = 0;
         for (Assignment assignment : assignments) {
             totalWeight += assignment.getWeight();
@@ -32,7 +44,7 @@ public class Course {
      * @param student the input student
      * @return true after you register the student
      */
-    boolean registerStudent(Student student) {
+    public boolean registerStudent(Student student) {
         registeredStudents.add(student);
         for (Assignment assignment : assignments) {
             assignment.getScores().add(null);
@@ -44,7 +56,7 @@ public class Course {
     /**
      * calculates the weighted average score of a student.
      */
-    int[] calcStudentsAverage() {
+    public int[] calcStudentsAverage() {
         int[] averages = new int[registeredStudents.size()];
 
         for (int i = 0; i < registeredStudents.size(); i++) {
@@ -65,7 +77,7 @@ public class Course {
      * @param maxScore the input max score
      * @return true after adding the assignment to assignments
      */
-    boolean addAssignment(String assignmentName, double weight, int maxScore) {
+    public boolean addAssignment(String assignmentName, double weight, int maxScore) {
         Assignment assignment = new Assignment(assignmentName, weight, maxScore);
         assignments.add(assignment);
         return true;
@@ -74,7 +86,7 @@ public class Course {
     /**
      * generates random scores for each assignment and student, and calculates the final score for each student.
      */
-    void generateScores() {
+    public void generateScores() {
         for (Assignment assignment : assignments) {
             assignment.getScores().clear();
             for (int i = 0; i < registeredStudents.size(); i++) {
@@ -82,7 +94,6 @@ public class Course {
 
             }
         }
-
         int[] averages = calcStudentsAverage();
         for (int i = 0; i < averages.length; i++) {
             finalScores.set(i, (double) averages[i]);
@@ -92,7 +103,7 @@ public class Course {
     /**
      * displays the scores of a course in a table, with the assignment averages and student weighted average
      */
-    void displayScores() {
+    public void displayScores() {
         generateScores();
 
         System.out.println("Course: " + courseName + "(C-" + department.getDepartmentId() + "-" + nextId++ + ")");
@@ -116,12 +127,11 @@ public class Course {
         }
     }
 
-
     /**
      * converts a course to a simple string with only the courseId, courseName, credits, and departmentName.
      * @return a course with only the courseId, courseName, credits, and departmentName.
      */
-    String toSimplifiedString() {
+    public String toSimplifiedString() {
         return String.format("Course:\n" +
                 "Course ID: C-%s-%s\n" +
                 "Course name: %s\n" +
@@ -134,7 +144,7 @@ public class Course {
     public String toString() {
         String students = "";
         for (Student student : registeredStudents) {
-            students = student.toSimplifiedString() + "\n";
+            students = student.toSimplifiedString();
         }
         return String.format("Course:\n" +
                 "Course ID: C-%s-%s\n" +
@@ -158,7 +168,7 @@ public class Course {
     }
 
     public void setCourseName(String courseName) {
-        this.courseName = courseName;
+        this.courseName = Util.toTitleCase(courseName);
     }
 
     public double getCredits() {

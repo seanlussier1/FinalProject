@@ -1,5 +1,6 @@
 package org.example;
 
+import Util.Util;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Student {
     private static int nextId = 1; // indicates the next ID that will be used
 
     public Student(String studentName, Gender gender, Address address, Department department) {
-        this.studentName = studentName;
+        this.studentName = Util.toTitleCase(studentName);
         this.gender = gender;
         this.address = address;
         this.department = department;
@@ -32,7 +33,7 @@ public class Student {
      * @param course the input course
      * @return true once the course is registered
      */
-    boolean registerCourse(Course course) {
+    public boolean registerCourse(Course course) {
         if (registeredCourses.contains(course)) {
             return false;
         }
@@ -49,7 +50,7 @@ public class Student {
      * @param course the input course
      * @return true after the course is dropped and false if the course was never registered
      */
-    boolean dropCourse(Course course) {
+    public boolean dropCourse(Course course) {
         if (!registeredCourses.contains(this)) {
             return false;
         }
@@ -69,10 +70,11 @@ public class Student {
                 "Student name: %s\n" +
                 "Department name: %s", nextId++, studentName, department.getDepartmentName());
     }
+
     public String toString() {
         String courses = "";
         for (Course course : registeredCourses) {
-            courses = course.toSimplifiedString() + "\n";
+            courses = course.toSimplifiedString();
         }
         return String.format("Student:\n" +
                 "Student ID: S%05d\n" +
@@ -96,7 +98,7 @@ public class Student {
     }
 
     public void setStudentName(String studentName) {
-        this.studentName = studentName;
+        this.studentName = Util.toTitleCase(studentName);
     }
 
     public Gender getGender() {

@@ -7,12 +7,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 
 public class Address {
-    int streetNo;
-    String street;
-    String city;
-    String province;
-    String postalCode;
-    String country;
+    private int streetNo;
+    private String street;
+    private String city;
+    private String province;
+    private String postalCode;
+    private String country;
 
     public Address(int streetNo, String street, String city, String province, String postalCode, String country) {
         if (isPostalCodeValid(postalCode)) {
@@ -42,7 +42,7 @@ public class Address {
      * @param postalCode the input postal code
      * @return true if the postal code is valid and false if the postal code is invalid
      */
-    static boolean isPostalCodeValid(String postalCode) {
+    public static boolean isPostalCodeValid(String postalCode) {
         if (postalCode == null || postalCode.isEmpty()) {
             return false;
         }

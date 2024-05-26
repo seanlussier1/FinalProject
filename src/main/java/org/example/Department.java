@@ -1,5 +1,6 @@
 package org.example;
 
+import Util.Util;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -9,12 +10,12 @@ import lombok.ToString;
 public class Department {
     private String departmentId; // 2 Digits has to start with a character D
     private String departmentName;
-    static int nextId = 1; // indicates the next ID that will be used
+    private static int nextId = 1; // indicates the next ID that will be used
 
     public Department(String departmentId, String departmentName) {
         if (validateDepartmentName(departmentName)) {
             this.departmentId = "D" + String.format("%02d", nextId++);
-            this.departmentName = departmentName;
+            this.departmentName = Util.toTitleCase(departmentName);
 
         } else {
             this.departmentId = null;
@@ -29,7 +30,7 @@ public class Department {
      * @param departmentName the input department name
      * @return true if the name is valid and false if the name is not valid
      */
-    static boolean validateDepartmentName(String departmentName) {
+    public static boolean validateDepartmentName(String departmentName) {
         if (departmentName == null || departmentName.isEmpty()) {
             return false;
         }
@@ -59,7 +60,7 @@ public class Department {
     }
 
     public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+        this.departmentName = Util.toTitleCase(departmentName);
     }
 
     public static int getNextId() {
