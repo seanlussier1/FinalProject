@@ -88,7 +88,7 @@ public class Course {
      * displays the scores of a course in a table, with the assignment averages and student weighted average
      */
     void displayScores() {
-        System.out.println("Course: " + courseName + "(" + courseId + ")");
+        System.out.println("Course: " + courseName + "(C-" + department.getDepartmentId() + "-" + courseId + ")");
         for (Assignment assignment : assignments) {
             System.out.printf("                  %s", assignment.getAssignmentName());
         }
