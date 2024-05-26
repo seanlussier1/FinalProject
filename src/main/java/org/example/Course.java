@@ -25,18 +25,37 @@ public class Course {
         return totalWeight == 1.0;
     }
 
-    // adds a student to the student list of the course,
-    // also add a new null element to each assignment of this course,
-    // and add a new null element for the finalScores.
+    /**
+     * adds a student to the student list of the course,
+     * also add a new null element to each assignment of this course,
+     * and add a new null element for the finalScores.
+     * @param student the input student
+     * @return true after you register the student
+     */
     boolean registerStudent(Student student) {
         registeredStudents.add(student);
         assignments.add(null);
         finalScores.add(null);
         return true;
     }
-    // calculates the weighted average score of a student.
+
+    /**
+     * calculates the weighted average score of a student.
+     */
     int[] calcStudentsAverage() {
-        Assignment assignment = new Assignment()
+        int[] averages = new int[registeredStudents.size()];
+
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            double weightedSumOfScores = 0;
+            for (Assignment assignment : assignments) {
+                int tempScore = assignment.getScores().get(i);
+                if (tempScore >= 0) {
+                    weightedSumOfScores = tempScore * assignment.getWeight();
+                }
+            }
+            averages[i] = (int) Math.round(weightedSumOfScores);
+        }
+        return averages;
     }
 
     /**
@@ -50,6 +69,74 @@ public class Course {
         Assignment assignment = new Assignment(assignmentName, weight, maxScore);
         assignments.add(assignment);
         return true;
+    }
+
+    /**
+     * generates random scores for each assignment and student, and calculates the final score for each student.
+     */
+    void generateScores() {
+        for (Assignment assignment : assignments) {
+            assignment.generateRandomScore();
+        }
+        int[] averages = calcStudentsAverage();
+        for (int i = 0; i < averages.length; i++) {
+            finalScores.set(i, (double) averages[i]);
+        }
+    }
+
+    /**
+     * displays the scores of a course in a table, with the assignment averages and student weighted average
+     */
+    void displayScores() {
+        System.out.println("Course: " + courseName + "(" + courseId + ")");
+        for (Assignment assignment : assignments) {
+            System.out.printf("                  %s", assignment.getAssignmentName());
+        }
+        System.out.println("      Final Score");
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            Student student = registeredStudents.get(i);
+            System.out.printf("%s", student.getStudentName());
+            generateScores();
+            for (Assignment assignment : assignments) {
+                int score = assignment.getScores().get(i);
+                System.out.printf("                  %d", score);
+            }
+            System.out.printf("      %f\n", finalScores.get(i));
+        }
+        System.out.print("Average");
+        for (Assignment assignment : assignments) {
+            assignment.calcAssignmentAvg();
+            System.out.printf("                  %f", assignment.getAssignmentAverage());
+        }
+    }
+
+
+    /**
+     * converts a course to a simple string with only the courseId, courseName, credits, and departmentName.
+     * @return a course with only the courseId, courseName, credits, and departmentName.
+     */
+    String toSimplifiedString() {
+        return String.format("Course:\n" +
+                "Course ID: C-%s-%s\n" +
+                "Course name: %s\n" +
+                "Credits: %f\n" +
+                "Department: %s", department.getDepartmentId(),
+                courseId, courseName, credits, department.getDepartmentName());
+    }
+
+    @Override
+    public String toString() {
+        String students = "";
+        for (Student student : registeredStudents) {
+            students = student.toSimplifiedString() + "\n";
+        }
+        return String.format("Course: \n" +
+                "Course ID: C-%s-%s\n" +
+                "Course name: %s\n" +
+                "Department: %s\n" +
+                "Assignment: %s" +
+                "Registered students: %s", department.getDepartmentId(),
+                courseId, courseName, department, assignments, students);
     }
 
     public String getCourseId() {
