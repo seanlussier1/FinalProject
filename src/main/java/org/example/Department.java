@@ -13,7 +13,7 @@ public class Department {
 
     public Department(String departmentId, String departmentName) {
         if (validateDepartmentName(departmentName)) {
-            this.departmentId = "D" + String.format("%d", nextId++);
+            this.departmentId = "D" + String.format("%02d", nextId++);
             this.departmentName = departmentName;
 
         } else {

@@ -11,7 +11,7 @@ public class Course {
     private ArrayList<Assignment> assignments;
     private ArrayList<Student> registeredStudents;
     private ArrayList<Double> finalScores;
-    private static int nextId; // indicates the next ID that will be used
+    private static int nextId = 1; // indicates the next ID that will be used
 
     /**
      * checks if the sum of weights of all assignments of that course equals to 1 (100%)
@@ -34,7 +34,9 @@ public class Course {
      */
     boolean registerStudent(Student student) {
         registeredStudents.add(student);
-        assignments.add(null);
+        for (Assignment assignment : assignments) {
+            assignment.getScores().add(null);
+        }
         finalScores.add(null);
         return true;
     }
@@ -48,10 +50,8 @@ public class Course {
         for (int i = 0; i < registeredStudents.size(); i++) {
             double weightedSumOfScores = 0;
             for (Assignment assignment : assignments) {
-                int tempScore = assignment.getScores().get(i);
-                if (tempScore >= 0) {
-                    weightedSumOfScores = tempScore * assignment.getWeight();
-                }
+                Integer tempScore = assignment.getScores().get(i);
+                    weightedSumOfScores += tempScore * assignment.getWeight();
             }
             averages[i] = (int) Math.round(weightedSumOfScores);
         }
@@ -76,8 +76,13 @@ public class Course {
      */
     void generateScores() {
         for (Assignment assignment : assignments) {
-            assignment.generateRandomScore();
+            assignment.getScores().clear();
+            for (int i = 0; i < registeredStudents.size(); i++) {
+                assignment.generateRandomScore();
+
+            }
         }
+
         int[] averages = calcStudentsAverage();
         for (int i = 0; i < averages.length; i++) {
             finalScores.set(i, (double) averages[i]);
@@ -88,25 +93,26 @@ public class Course {
      * displays the scores of a course in a table, with the assignment averages and student weighted average
      */
     void displayScores() {
-        System.out.println("Course: " + courseName + "(C-" + department.getDepartmentId() + "-" + courseId + ")");
+        generateScores();
+
+        System.out.println("Course: " + courseName + "(C-" + department.getDepartmentId() + "-" + nextId++ + ")");
         for (Assignment assignment : assignments) {
-            System.out.printf("                  %s", assignment.getAssignmentName());
+            System.out.printf("%27s", assignment.getAssignmentName());
         }
-        System.out.println("      Final Score");
+        System.out.printf("%25s", "Final Score");
         for (int i = 0; i < registeredStudents.size(); i++) {
             Student student = registeredStudents.get(i);
-            System.out.printf("%s", student.getStudentName());
-            generateScores();
+            System.out.printf("\n%15s", student.getStudentName());
             for (Assignment assignment : assignments) {
                 int score = assignment.getScores().get(i);
-                System.out.printf("                  %d", score);
+                System.out.printf("%16d", score);
             }
-            System.out.printf("      %f\n", finalScores.get(i));
+            System.out.printf("%35.0f\n", finalScores.get(i));
         }
-        System.out.print("Average");
+        System.out.printf("%15s","Average");
         for (Assignment assignment : assignments) {
             assignment.calcAssignmentAvg();
-            System.out.printf("                  %f", assignment.getAssignmentAverage());
+            System.out.printf("%16.0f", assignment.getAssignmentAverage());
         }
     }
 
@@ -121,7 +127,7 @@ public class Course {
                 "Course name: %s\n" +
                 "Credits: %f\n" +
                 "Department: %s", department.getDepartmentId(),
-                courseId, courseName, credits, department.getDepartmentName());
+                nextId++, courseName, credits, department.getDepartmentName());
     }
 
     @Override
@@ -130,13 +136,13 @@ public class Course {
         for (Student student : registeredStudents) {
             students = student.toSimplifiedString() + "\n";
         }
-        return String.format("Course: \n" +
+        return String.format("Course:\n" +
                 "Course ID: C-%s-%s\n" +
                 "Course name: %s\n" +
                 "Department: %s\n" +
                 "Assignment: %s" +
                 "Registered students: %s", department.getDepartmentId(),
-                courseId, courseName, department, assignments, students);
+                nextId++, courseName, department, assignments, students);
     }
 
     public String getCourseId() {

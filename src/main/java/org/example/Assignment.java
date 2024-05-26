@@ -1,10 +1,8 @@
 package org.example;
 
 import lombok.EqualsAndHashCode;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 @EqualsAndHashCode
 public class Assignment {
     private String assignmentId;
@@ -19,8 +17,8 @@ public class Assignment {
         this.assignmentName = assignmentName;
         this.weight = weight;
         this.maxScore = maxScore;
+        this.scores = new ArrayList<>();
     }
-
     /**
      * calculates the average score of one assignment
      */
@@ -57,12 +55,11 @@ public class Assignment {
 
     @Override
     public String toString() {
-        return "Assignment{" +
-                "assignmentId='" + assignmentId + '\'' +
-                ", assignmentName='" + assignmentName + '\'' +
-                ", weight=" + weight +
-                ", maxScore=" + maxScore +
-                '}';
+        return String.format("Assignment:\n" +
+                "Assignment ID: %s\n" +
+                "Assignment name: %s\n" +
+                "Weight: %f\n" +
+                "Max score: %d\n", assignmentId, assignmentName, weight, maxScore);
     }
 
     public String getAssignmentId() {

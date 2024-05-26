@@ -1,8 +1,6 @@
 package org.example;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 @EqualsAndHashCode
@@ -25,10 +23,15 @@ public class Student {
         this.registeredCourses = new ArrayList<>();
     }
 
-    // registers a course, this method (1) adds the course to the student's registeredCourses list,
-    // (2) adds the student to the course's registeredStudents list,
-    // (3) appends a null for the scores of each assignment of the course.
-    // If the course is already registered, directly returns false
+    /**
+     * registers a course,
+     * (1) adds the course to the student's registeredCourses list,
+     * (2) adds the student to the course's registeredStudents list,
+     * (3) appends a null for the scores of each assignment of the course.
+     * If the course is already registered, directly returns false
+     * @param course the input course
+     * @return true once the course is registered
+     */
     boolean registerCourse(Course course) {
         if (registeredCourses.contains(course)) {
             return false;
@@ -38,9 +41,14 @@ public class Student {
         return true;
     }
 
-    // drops a course, remove the course from the student's registeredCourses list,
-    // and remove the student from the course's registeredStudents list. If the course is not registered yet,
-    // directly returns false
+    /**
+     * drops a course,
+     * remove the course from the student's registeredCourses list,
+     * and remove the student from the course's registeredStudents list.
+     * If the course is not registered yet, directly returns false
+     * @param course the input course
+     * @return true after the course is dropped and false if the course was never registered
+     */
     boolean dropCourse(Course course) {
         if (!registeredCourses.contains(this)) {
             return false;
@@ -49,25 +57,30 @@ public class Student {
         course.getRegisteredStudents().remove(this);
         return true;
     }
-    // converts a student to a simple string with only the studentId, the studentName, and departmentName.
-    // This method is called in Course toString().
-    public String toSimplifiedString() {
-        return "Student{" +
-                "studentId =' \n" + studentId + '\'' +
-                ", studentName ='\n" + studentName + '\'' +
-                ", departmentName =" + department.getDepartmentName() +
-                '}';
 
+    /**
+     * converts a student to a simple string with only the studentId, the studentName, and departmentName.
+     * This method is called in Course toString().
+     * @return a simplified String with only studentId, Student name and Department name.
+     */
+    public String toSimplifiedString() {
+        return String.format("Student:\n" +
+                "Student ID: S%05d\n" +
+                "Student name: %s\n" +
+                "Department name: %s", nextId++, studentName, department.getDepartmentName());
     }
     public String toString() {
-        return "Student{" +
-                "studentId='" + studentId + '\'' +
-                ", studentName='" + studentName + '\'' +
-                ", gender=" + gender +
-                ", address=" + address +
-                ", department=" + department +
-                ", registeredCourses=" + registeredCourses. +
-                '}';
+        String courses = "";
+        for (Course course : registeredCourses) {
+            courses = course.toSimplifiedString() + "\n";
+        }
+        return String.format("Student:\n" +
+                "Student ID: S%05d\n" +
+                "Student name: %s\n" +
+                "Gender: %s" +
+                "Address: %s" +
+                "Department: %s" +
+                "Registered courses: %s", nextId++, studentName, gender, address, department, courses);
     }
 
     public String getStudentId() {
