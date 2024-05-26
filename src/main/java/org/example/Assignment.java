@@ -1,8 +1,11 @@
 package org.example;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.Random;
 
+@EqualsAndHashCode
 public class Assignment {
     private String assignmentId;
     private String assignmentName;
@@ -11,6 +14,12 @@ public class Assignment {
     private double assignmentAverage;
     private ArrayList<Integer> scores;
     private static int nextId;
+
+    public Assignment(String assignmentName, double weight, int maxScore) {
+        this.assignmentName = assignmentName;
+        this.weight = weight;
+        this.maxScore = maxScore;
+    }
 
     /**
      * calculates the average score of one assignment
@@ -54,5 +63,61 @@ public class Assignment {
                 ", weight=" + weight +
                 ", maxScore=" + maxScore +
                 '}';
+    }
+
+    public String getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(String assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    public String getAssignmentName() {
+        return assignmentName;
+    }
+
+    public void setAssignmentName(String assignmentName) {
+        this.assignmentName = assignmentName;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public double getAssignmentAverage() {
+        return assignmentAverage;
+    }
+
+    public void setAssignmentAverage(double assignmentAverage) {
+        this.assignmentAverage = assignmentAverage;
+    }
+
+    public ArrayList<Integer> getScores() {
+        return scores;
+    }
+
+    public void setScores(ArrayList<Integer> scores) {
+        this.scores = scores;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Assignment.nextId = nextId;
     }
 }

@@ -1,23 +1,19 @@
 package org.example;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode
-@Getter
-@Setter
 
 public class Department {
     private String departmentId; // 2 Digits has to start with a character D
     private String departmentName;
-    static int nextId; // indicates the next ID that will be used
+    static int nextId = 1; // indicates the next ID that will be used
 
     public Department(String departmentId, String departmentName) {
         if (validateDepartmentName(departmentName)) {
-            this.departmentId = departmentId;
+            this.departmentId = "D" + String.format("%d", nextId++);
             this.departmentName = departmentName;
 
         } else {
@@ -48,5 +44,29 @@ public class Department {
             }
         }
         return true;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Department.nextId = nextId;
     }
 }
